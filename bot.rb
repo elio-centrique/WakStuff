@@ -141,8 +141,7 @@ bot.command(:compare, max_args: 4, description: I18n.t(:compareCommand)) do |eve
     findRarity2 = false
     level1 = ""
     level2 = ""
-    itemlink1 = "https://s.ankama.com/www/static.ankama.com/wakfu/portal/game/item/"
-    itemlink2 = "https://s.ankama.com/www/static.ankama.com/wakfu/portal/game/item/"
+
 
     #item 1
     for item in jsonItem
@@ -176,9 +175,7 @@ bot.command(:compare, max_args: 4, description: I18n.t(:compareCommand)) do |eve
             messageEmbed = ""
             if args[0].downcase == rarity.downcase
                 findRarity1 = true
-                linkpart1 = item['definition']['item']['baseParameters']['itemTypeId']
-                linkpart2 = item['definition']['item']['graphicParameters']['gfxId']
-                itemlink1 += linkpart1 + "/" + linkpart2 + ".png"
+                linkpart = item['definition']['item']['graphicParameters']['gfxId']
                 for bonus in item['definition']['equipEffects']
                     bonusId = bonus['effect']['definition']['actionId']
                     for action in jsonAction
@@ -209,7 +206,7 @@ bot.command(:compare, max_args: 4, description: I18n.t(:compareCommand)) do |eve
                     embed.title = args[1] + " " + I18n.t(:level) + " " + level1.to_s
                     embed.description = messageEmbed
                     embed.color = color
-                    embed.image = itemlink1
+                    embed.image = Discordrb::Webhooks::EmbedImage.new(url: "https://s.ankama.com/www/static.ankama.com/wakfu/portal/game/item/115/" + linkpart2.to_s + ".png")
                 end
             end
         end
@@ -253,9 +250,7 @@ bot.command(:compare, max_args: 4, description: I18n.t(:compareCommand)) do |eve
             messageEmbed = ""
             if args[2].downcase == rarity.downcase
                 findRarity2 = true
-                linkpart1 = item['definition']['item']['baseParameters']['itemTypeId']
-                linkpart2 = item['definition']['item']['graphicParameters']['gfxId']
-                itemlink2 += linkpart1 + "/" + linkpart2 + ".png"
+                linkpart = item['definition']['item']['graphicParameters']['gfxId']
                 for bonus in item['definition']['equipEffects']
                     bonusId = bonus['effect']['definition']['actionId']
                     for action in jsonAction
@@ -286,7 +281,7 @@ bot.command(:compare, max_args: 4, description: I18n.t(:compareCommand)) do |eve
                     embed.title = args[3] + " " + I18n.t(:level) + " " + level2.to_s
                     embed.description = messageEmbed
                     embed.color = color
-                    embed.image = itemlink2
+                    embed.image = Discordrb::Webhooks::EmbedImage.new(url: "https://s.ankama.com/www/static.ankama.com/wakfu/portal/game/item/115/" + linkpart.to_s + ".png")
                 end
             end
         end
