@@ -39,6 +39,7 @@ bot.command(:object, min_args: 2, description: I18n.t(:objectCommand)) do |event
     findObject = false
     findRarity = false
     moreArgs = ""
+    level = ""
 
     if args.length > 2
         moreArgs = args.join(' ')
@@ -50,6 +51,7 @@ bot.command(:object, min_args: 2, description: I18n.t(:objectCommand)) do |event
     for item in jsonItem
         if moreArgs.downcase === item['title'][language].downcase
             findObject = true
+            level = item['definition']['item']['level']
             rarityNumber = item['definition']['item']['baseParameters']['rarity']
             case rarityNumber
             when 1
@@ -104,7 +106,7 @@ bot.command(:object, min_args: 2, description: I18n.t(:objectCommand)) do |event
                     end
                 end
                 event.send_embed do |embed|
-                    embed.title = moreArgs
+                    embed.title = moreArgs + " " +I18n.t(:level) + " " + level
                     embed.description = messageEmbed
                     embed.color = color
                 end
@@ -115,11 +117,11 @@ bot.command(:object, min_args: 2, description: I18n.t(:objectCommand)) do |event
         event << "My bath water can be found at Ecaflipus in front of the zaap."
     else
         if !findObject
-            event << "No objects were found with this name."
+            event << I18n.t(:noObject)
         end
     end
     if findObject && !findRarity
-        event << "This object does not exist in this rarity"
+        event << I18n.t(:noRarity)
     end
 end
 
@@ -132,11 +134,14 @@ bot.command(:compare, max_args: 4, description: I18n.t(:compareCommand)) do |eve
     findRarity1 = false
     findObject2 = false
     findRarity2 = false
+    level1 = ""
+    level2 = ""
 
     #item 1
     for item in jsonItem
         if args[1].downcase === item['title'][language].downcase
             findObject1 = true
+            level1 = item['definition']['item']['level']
             rarityNumber = item['definition']['item']['baseParameters']['rarity']
             case rarityNumber
             when 1
@@ -191,7 +196,7 @@ bot.command(:compare, max_args: 4, description: I18n.t(:compareCommand)) do |eve
                     end
                 end
                 event.send_embed do |embed|
-                    embed.title = args[1]
+                    embed.title = args[1] + " " + I18n.t(:level) + " " + level1
                     embed.description = messageEmbed
                     embed.color = color
                 end
@@ -209,6 +214,7 @@ bot.command(:compare, max_args: 4, description: I18n.t(:compareCommand)) do |eve
     for item in jsonItem
         if args[3].downcase === item['title'][language].downcase
             findObject2 = true
+            level2 = item['definition']['item']['level']
             rarityNumber = item['definition']['item']['baseParameters']['rarity']
             case rarityNumber
             when 1
@@ -263,7 +269,7 @@ bot.command(:compare, max_args: 4, description: I18n.t(:compareCommand)) do |eve
                     end
                 end
                 event.send_embed do |embed|
-                    embed.title = args[3]
+                    embed.title = args[3] + " " + I18n.t(:level) + " " + level2
                     embed.description = messageEmbed
                     embed.color = color
                 end

@@ -18,3 +18,4 @@ en:
   versionCommand: "Show the current version of the bot."
   objectCommand: 'Give stats of an item. Usage: w!object [rarity] [item]'
   setLanguageCommand: "Change the language. Available language: fr, en"
+  level: "level"

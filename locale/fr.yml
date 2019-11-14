@@ -18,3 +18,4 @@ fr:
   versionCommand: "Affiche la version actuelle du bot."
   objectCommand: "Affiche les statistiques d'un objet Utilisation: w!object [rareté] [objet]"
   setLanguageCommand: "Change la langue utilisée. langues disponibles: fr, en"
+  level: "niveau"
