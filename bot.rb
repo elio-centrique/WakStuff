@@ -29,7 +29,7 @@ language = file_data[0]
 I18n.load_path << Dir[File.expand_path("locale") + "/*.yml"]
 I18n.default_locale = language.to_sym
 
-bot = Discordrb::Commands::CommandBot.new token: 'NTA3NTUzMTQwMzMwMjAxMDg5.XWBRBQ.zP9jiJ-ZR8xGgpD72F_f8GBqkyA', prefix: "w!", advanced_functionality: true
+bot = Discordrb::Commands::CommandBot.new token: 'NTA3NTUzMTQwMzMwMjAxMDg5.Xc1TlQ.LH0hMfLUEnWedEkBAp0I51KGL5A', prefix: "w!", advanced_functionality: true
 
 bot.command(:object, min_args: 2, description: I18n.t(:objectCommand)) do |event, *args|
     fileItem = File.open("JSON/items.json", "r")
