@@ -25,11 +25,14 @@ end
 file = File.read("config.txt")
 file_data = file.split
 
+file = File.read("token.txt")
+token = file.split
+
 language = file_data[0]
 I18n.load_path << Dir[File.expand_path("locale") + "/*.yml"]
 I18n.default_locale = language.to_sym
 
-bot = Discordrb::Commands::CommandBot.new token: 'NTA3NTUzMTQwMzMwMjAxMDg5.Xc1eaQ.-gOWyhTLDtEgPh0yjeFLeoVlx3I', prefix: "w!", advanced_functionality: true
+bot = Discordrb::Commands::CommandBot.new token: token, prefix: "w!", advanced_functionality: true
 
 bot.command(:object, min_args: 2, description: I18n.t(:objectCommand)) do |event, *args|
     fileItem = File.open("JSON/items.json", "r")
