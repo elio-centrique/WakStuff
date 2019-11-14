@@ -206,7 +206,7 @@ bot.command(:compare, max_args: 4, description: I18n.t(:compareCommand)) do |eve
                     embed.title = args[1] + " " + I18n.t(:level) + " " + level1.to_s
                     embed.description = messageEmbed
                     embed.color = color
-                    embed.image = Discordrb::Webhooks::EmbedImage.new(url: "https://s.ankama.com/www/static.ankama.com/wakfu/portal/game/item/115/" + linkpart2.to_s + ".png")
+                    embed.image = Discordrb::Webhooks::EmbedImage.new(url: "https://s.ankama.com/www/static.ankama.com/wakfu/portal/game/item/115/" + linkpart.to_s + ".png")
                 end
             end
         end
