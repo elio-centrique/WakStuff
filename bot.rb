@@ -106,7 +106,7 @@ bot.command(:object, min_args: 2, description: I18n.t(:objectCommand)) do |event
                     end
                 end
                 event.send_embed do |embed|
-                    embed.title = moreArgs + " " +I18n.t(:level) + " " + level
+                    embed.title = moreArgs + " " +I18n.t(:level) + " " + level.to_str
                     embed.description = messageEmbed
                     embed.color = color
                 end
@@ -196,7 +196,7 @@ bot.command(:compare, max_args: 4, description: I18n.t(:compareCommand)) do |eve
                     end
                 end
                 event.send_embed do |embed|
-                    embed.title = args[1] + " " + I18n.t(:level) + " " + level1
+                    embed.title = args[1] + " " + I18n.t(:level) + " " + level1.to_str
                     embed.description = messageEmbed
                     embed.color = color
                 end
@@ -269,7 +269,7 @@ bot.command(:compare, max_args: 4, description: I18n.t(:compareCommand)) do |eve
                     end
                 end
                 event.send_embed do |embed|
-                    embed.title = args[3] + " " + I18n.t(:level) + " " + level2
+                    embed.title = args[3] + " " + I18n.t(:level) + " " + level2.to_str
                     embed.description = messageEmbed
                     embed.color = color
                 end
