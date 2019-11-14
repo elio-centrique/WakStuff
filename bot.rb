@@ -92,6 +92,7 @@ bot.command(:object, min_args: 2, description: I18n.t(:objectCommand)) do |event
                             m.gsub! '[#1]', (param[1].to_i * level + param[0].to_i).to_s
                             m.gsub! '[#2]', (param[3].to_i * level + param[2].to_i).to_s
                             m.gsub! '[#3]', (param[5].to_i * level + param[4].to_i).to_s
+                            m.gsub! '[>1]?', ""
                             m.gsub! '{[>2]?:s}', "s"
                             m.gsub! '{[>2]?s:}', "s"
                             m.gsub! '{[=2]?:s}', ""
@@ -183,9 +184,12 @@ bot.command(:compare, max_args: 4, description: I18n.t(:compareCommand)) do |eve
                             param = bonus['effect']['definition']['params']
                             level = item['definition']['item']['level'].to_i
                             m = action['description'][language].encode("ISO-8859-1").encode('utf-8')
+                            m.gsub! '[~3]?[#1] Maîtrise [#3]:', ""
+                            m.gsub! '[~3]?[#1] Mastery [#3]:', ""
                             m.gsub! '[#1]', (param[1].to_i * level + param[0].to_i).to_s
                             m.gsub! '[#2]', (param[3].to_i * level + param[2].to_i).to_s
                             m.gsub! '[#3]', (param[5].to_i * level + param[4].to_i).to_s
+                            m.gsub! '[>1]?', ""
                             m.gsub! '{[>2]?:s}', "s"
                             m.gsub! '{[>2]?s:}', "s"
                             m.gsub! '{[=2]?:s}', ""
@@ -259,9 +263,12 @@ bot.command(:compare, max_args: 4, description: I18n.t(:compareCommand)) do |eve
                             param = bonus['effect']['definition']['params']
                             level = item['definition']['item']['level'].to_i
                             m = action['description'][language].encode("ISO-8859-1").encode('utf-8')
+                            m.gsub! '[~3]?[#1] Maîtrise [#3]:', ""
+                            m.gsub! '[~3]?[#1] Mastery [#3]:', ""
                             m.gsub! '[#1]', (param[1].to_i * level + param[0].to_i).to_s
                             m.gsub! '[#2]', (param[3].to_i * level + param[2].to_i).to_s
                             m.gsub! '[#3]', (param[5].to_i * level + param[4].to_i).to_s
+                            m.gsub! '[>1]?', ""
                             m.gsub! '{[>2]?:s}', "s"
                             m.gsub! '{[>2]?s:}', "s"
                             m.gsub! '{[=2]?:s}', ""
