@@ -21,3 +21,4 @@ fr:
   level: "niveau"
   almanaxEvent: 'Bonus du jour: '
   noAlmanaxEvent: "Pas de bonus du jour. Attendez, quoi? Comment c'est possible? (merci de contacter Elio-Centrique#1104 à propos de ce message)"
+  checkDM: ', merci de vérifier vos DM, je viens de vous envoyer les bonus du jour.'

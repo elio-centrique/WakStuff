@@ -80,6 +80,7 @@ bot.command(:almanax, max_args: 0, description: I18n.t(:almanaxCommand)) do |eve
     response.items.each do |eventAlma|
         message += "#{eventAlma.summary}"
     end
+    event << event.user.name + I18n.t(:checkDM)
     event.user.pm(message)
 end
 
