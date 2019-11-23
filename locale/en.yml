@@ -19,3 +19,5 @@ en:
   objectCommand: 'Give stats of an item. Usage: w!object [rarity] [item]'
   setLanguageCommand: "Change the language. Available language: fr, en"
   level: "level"
+  almanaxEvent: "Today bonus: "
+  noAlmanaxEvent: "No bonuses available. Wait, what? how is it possible? (please tell Elio-Centrique#1104 abot this message)."

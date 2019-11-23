@@ -50,3 +50,6 @@ build-iPhoneSimulator/
 .rvmrc
 
 token.txt
+token.yaml
+credentials.json
+Gemfile.lock
