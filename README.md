@@ -4,7 +4,7 @@
 ## How to use it
 <p>First of all, you need to be an administrator of a server to invite the bot.
 If you are, congratulation, you can click on this link to invite the bot: <br/>
-https://discordapp.com/oauth2/authorize?client_id=507553140330201089&scope=bot&permissions=0
+https://discordapp.com/oauth2/authorize?client_id=507553140330201089&scope=bot&permissions=0 <br/>
 This bot don't need any extra permission, but keep in mind that it needs reading and writing message in channels to work.
 </p>
 
