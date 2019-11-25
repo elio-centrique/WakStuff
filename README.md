@@ -13,7 +13,7 @@ This bot don't need any extra permission, but keep in mind that it needs reading
 
 ## Commands
 <p> Here the list of all the commands available: (the prefix is "w!") <br/>
-all arguments between "&lsaquo;>" are mandatory
+all arguments between "&lt;&gt; are mandatory
 <ul>
 <li> w!version <br/> give the actual version of the bot </li>
 <li> w!setLanguage &lt;language> <br/> set the language of the bot. Languages available: fr, en </li>
