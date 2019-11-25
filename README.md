@@ -20,7 +20,7 @@ all arguments between "&lt;&gt;" are mandatory
 <li> w!object &lt;rarity&gt; &lt;name&gt; <br/> give the information of one item.</li>
 <li> w!compare &lt;rarity1&gt; &lt;name1&gt; &lt;rarity2&gt; &lt;name2&gt; <br/> Compare two items.</li>
 <li> w!almanax <br/> give the daily bonus (in PM) </li>
-
+</ul>
 More commands will come in the next updates.
 
 ## Contribution
