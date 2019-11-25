@@ -24,6 +24,6 @@ all arguments between "&lt;&gt;" are mandatory
 More commands will come in the next updates.
 
 ## Contribution
-You can contribute to this project by cloning it.
-Don't forget to install Ruby on Rails, libsodium and bundler gem. Without libsodium, the bot won't launch: libsodium is required for Google API.
+You can contribute to this project by cloning it. <br/>
+Don't forget to install Ruby on Rails, libsodium and bundler gem. Without libsodium, the bot won't launch: libsodium is required for Google API. <br/>
 Please do pull request when you push.
