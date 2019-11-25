@@ -7,6 +7,7 @@ If you are, congratulation, you can click on this link to invite the bot: <br/>
 https://discordapp.com/oauth2/authorize?client_id=507553140330201089&scope=bot&permissions=0
 This bot don't need any extra permission, but keep in mind that it needs reading and writing message in channels to work.
 </p>
+
 ## And then?
 <p>That's all, the bot is ready to use, yeah ! </p>
 
