@@ -22,3 +22,5 @@ fr:
   almanaxEvent: 'Bonus du jour: '
   noAlmanaxEvent: "Pas de bonus du jour. Attendez, quoi? Comment c'est possible? (merci de contacter Elio-Centrique#1104 à propos de ce message)"
   checkDM: ', merci de vérifier vos DM, je viens de vous envoyer les bonus du jour.'
+  loadingItems: "Chargement des objets dans votre langue, merci de patienter..."
+  wrongLanguage: "Cette langue n'est pas implémentée. Langues implémentées: fr, en."

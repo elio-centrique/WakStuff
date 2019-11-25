@@ -22,3 +22,5 @@ en:
   almanaxEvent: "Today bonus: "
   noAlmanaxEvent: "No bonuses available. Wait, what? how is it possible? (please tell Elio-Centrique#1104 abot this message)."
   checkDM: ', please check your DM, i just give you the bonuses of the day.'
+  loadingItems: "Loading item of your language, please wait..."
+  wrongLanguage: "This language is not supported, supported languages: fr, en."
