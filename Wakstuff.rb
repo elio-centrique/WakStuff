@@ -8,52 +8,8 @@ require 'json'
 require 'discordrb'
 require 'discordrb/webhooks'
 require 'i18n'
-require "google/apis/calendar_v3"
-require "googleauth"
-require "googleauth/stores/file_token_store"
 require "date"
-require "fileutils"
-
-#
-# GOOGLE CALENDAR INITIALISATION
-#
-OOB_URI = "urn:ietf:wg:oauth:2.0:oob".freeze
-APPLICATION_NAME = "Google Calendar API Ruby Quickstart".freeze
-CREDENTIALS_PATH = "credentials.json".freeze
-# The file token.yaml stores the user's access and refresh tokens, and is
-# created automatically when the authorization flow completes for the first
-# time.
-TOKEN_PATH = "token.yaml".freeze
-SCOPE = Google::Apis::CalendarV3::AUTH_CALENDAR_READONLY
-
-##
-# Ensure valid credentials, either by restoring from the saved credentials
-# files or intitiating an OAuth2 authorization. If authorization is required,
-# the user's default browser will be launched to approve the request.
-#
-# @return [Google::Auth::UserRefreshCredentials] OAuth2 credentials
-def authorize
-  client_id = Google::Auth::ClientId.from_file CREDENTIALS_PATH
-  token_store = Google::Auth::Stores::FileTokenStore.new file: TOKEN_PATH
-  authorizer = Google::Auth::UserAuthorizer.new client_id, SCOPE, token_store
-  user_id = "default"
-  credentials = authorizer.get_credentials user_id
-  if credentials.nil?
-    url = authorizer.get_authorization_url base_url: OOB_URI
-    puts "Open the following URL in the browser and enter the " \
-         "resulting code after authorization:\n" + url
-    code = gets
-    credentials = authorizer.get_and_store_credentials_from_code(
-      user_id: user_id, code: code, base_url: OOB_URI
-    )
-  end
-  credentials
-end
-
-# Initialize the API
-service = Google::Apis::CalendarV3::CalendarService.new
-service.client_options.application_name = APPLICATION_NAME
-service.authorization = authorize
+require_relative "Classes/Item.rb"
 
 file = File.read("config.txt")
 file_data = file.split
@@ -64,74 +20,6 @@ token = file.split
 language = file_data[0]
 I18n.load_path << Dir[File.expand_path("locale") + "/*.yml"]
 I18n.default_locale = language.to_sym
-
-class Item    
-    def initialize(name, rarity, color, level, description, stats, image)
-        @name = name
-        @rarity = rarity
-        @color = color
-        @level = level
-        @description = description
-        @stats = stats
-        @image = image
-    end
-
-    def name
-        @name
-    end
-
-    def setName(name)
-        @name = name
-    end
-
-    def rarity
-        @rarity
-    end
-
-    def setRarity(rarity)
-        @rarity = rarity
-    end
-
-    def color
-        @color
-    end
-
-    def setColor(color)
-        @color = color
-    end
-
-    def level
-        @level
-    end
-
-    def setLevel(level)
-        @level = level
-    end
-
-    def description
-        @description
-    end
-
-    def setDescription(description)
-        @description = description
-    end
-
-    def getStats
-        message = ""
-        for stat in @stats
-            message += stat + "\n"
-        end
-        return message
-    end
-
-    def setStats(stats)
-        @stats = stats
-    end
-
-    def image
-        @image
-    end
-end
 
 listItems = []
 fileItem = File.open("JSON/items.json", "r")
@@ -224,17 +112,20 @@ loadItemList(listItems, jsonItem, jsonAction, language)
 bot = Discordrb::Commands::CommandBot.new token: token[0], prefix: "w!", advanced_functionality: true
 
 bot.command(:almanax, max_args: 0, description: I18n.t(:almanaxCommand)) do |event|
-    message = ""
-    calendar_id = "primary"
-    response = service.list_events(calendar_id,
-                                max_results:   1,
-                                single_events: true,
-                                order_by:      "startTime",
-                                time_min:      DateTime.now.rfc3339)
-    message += I18n.t(:almanaxEvent)
-    message += I18n.t(:noEventAlmanax) if response.items.empty?
-    response.items.each do |eventAlma|
-        message += "#{eventAlma.summary}"
+    message = I18n.t(:almanaxEvent)
+    today = Date.today
+    compare = Date.new(2019, 11, 21)
+    difference = (today - compare).to_i
+    if (difference % 5 == 0)
+        message += I18n.t(:prospecting)
+    elsif (difference % 5 == 1)
+        message += I18n.t(:craft)
+    elsif (difference % 5 == 2)
+        message += I18n.t(:XPHarvest)
+    elsif (difference %5 == 3)
+        message += I18n.t(:FarmHarvest)
+    elsif (difference %5 == 4)
+        message += I18n.t(:wisdom)
     end
     event << event.user.name + I18n.t(:checkDM)
     event.user.pm(message)
