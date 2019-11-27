@@ -20,5 +20,11 @@ en:
   setLanguageCommand: "Change the language. Available language: fr, en"
   level: "level"
   almanaxEvent: "Today bonus: "
-  noAlmanaxEvent: "No bonuses available. Wait, what? how is it possible? (please tell Elio-Centrique#1104 abot this message)."
   checkDM: ', please check your DM, i just give you the bonuses of the day.'
+  loadingItems: "Loading item of your language, please wait..."
+  wrongLanguage: "This language is not supported, supported languages: fr, en."
+  prospecting: "+40 Prospecting"
+  craft: "+20% XP & Speed Craft"
+  XPHarvest: "+30% XP Harvest & Planting"
+  FarmHarvest: "+20% Quantity of Harvest & +20% Chance of Planting"
+  wisdom: "+40 Wisdom"
