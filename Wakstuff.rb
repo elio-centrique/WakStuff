@@ -14,8 +14,8 @@ require_relative "Classes/Item.rb"
 file = File.read("config.txt")
 file_data = file.split
 
-file = File.read("token.txt")
-token = file.split
+#file = File.read("token.txt")
+token = process.env.token
 
 language = file_data[0]
 I18n.load_path << Dir[File.expand_path("locale") + "/*.yml"]
