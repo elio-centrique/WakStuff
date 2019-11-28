@@ -1,5 +1,7 @@
 # WakStuff
-<p>Discord bot of the game Wakfu. Give informations about one or more items (stats, description, bonuses, etc...)</p>
+<p>WakStuff is a bot created with the JSON data provided by Ankama Games&copy; <br>
+WakStuff was developed to give informations about gears, and other usefull features.
+</p>
 
 ## How to use it
 <p>First of all, you need to be an administrator of a server to invite the bot.
