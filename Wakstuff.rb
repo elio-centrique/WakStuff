@@ -109,7 +109,7 @@ end
 
 loadItemList(listItems, jsonItem, jsonAction, language)
 
-bot = Discordrb::Commands::CommandBot.new token: token[0], prefix: "w!", advanced_functionality: true
+bot = Discordrb::Commands::CommandBot.new token: process.env.token, prefix: "w!", advanced_functionality: true
 
 bot.command(:almanax, max_args: 0, description: I18n.t(:almanaxCommand)) do |event|
     message = I18n.t(:almanaxEvent)
