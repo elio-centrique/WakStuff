@@ -251,10 +251,12 @@ bot.command(:setLanguage, min_args: 1, max_args: 1, description: I18n.t(:setLang
 end
 
 bot.command(:version, max_args: 0, description: I18n.t(:versionCommand)) do |event|
-    file = File.open("version.txt").read
+    file = File.open("version.txt", "r")
+    message = ""
     file.each_line do |line|
-        event << line
+        message += line
     end 
+    message
 end
 
 bot.run
