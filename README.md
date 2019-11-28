@@ -37,7 +37,7 @@ Then, go to the repository folder, open a CMD and type "gem install bundler" (ke
 After that, go to https://discordapp.com/developers/applications and create a new application. <br>
 Go to "Bot", configure it and copy the token. <br>
 Create a file "token.txt" and paste the token on it. <br>
-Finnaly, type "bundle" in the previous cmd, type "bundle" to install every depedance.<br>
+Finnaly, type "bundle" in the previous cmd to install every dependance.<br>
 That's it, the bot is ready to use.<br>
 To launch it, type "bundle exec ruby Wakfstuff.rb", and invite your bot on your server by creating a invitation link: <br>
 https://discordapi.com/permissions.html (type your Client ID available in your Discord application. The bot don't need any permission.) <br>
