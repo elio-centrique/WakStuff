@@ -1,1 +1,1 @@
-worker: nohup bundle exec ruby Wakstuff.rb &
+console: bundle exec ruby Wakstuff.rb
