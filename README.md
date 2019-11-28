@@ -23,7 +23,35 @@ all arguments between "&lt;&gt;" are mandatory
 </ul>
 More commands will come in the next updates.
 
+## Support
+<p> If you need help with the bot (connection issues, usage, suggestions, etc...), you can join the discord server: <br>
+https://discord.gg/w5kbMsT <br>
+</p>
+
 ## Contribution
-You can contribute to this project by cloning it. <br/>
-Don't forget to install Ruby on Rails, libsodium and bundler gem. Without libsodium, the bot won't launch: libsodium is required for Google API. <br/>
-Please do pull request when you push.
+
+### Installation
+<p>You can contribute to this project by cloning it. <p>
+<p>First of all, you need to install a Ruby environment. You can find everything on https://www.ruby-lang.org/en/ <br>
+Then, go to the repository folder, open a CMD and type "gem install bundler" (keep it open after the installation) <br>
+After that, go to https://discordapp.com/developers/applications and create a new application. <br>
+Go to "Bot", configure it and copy the token. <br>
+Create a file "token.txt" and paste the token on it. <br>
+Finnaly, type "bundle" in the previous cmd, type "bundle" to install every depedance.<br>
+That's it, the bot is ready to use.<br>
+To launch it, type "bundle exec ruby Wakfstuff.rb", and invite your bot on your server by creating a invitation link: <br>
+https://discordapi.com/permissions.html (type your Client ID available in your Discord application. The bot don't need any permission.) <br>
+</p>
+
+### Github
+<p>
+The main github repository obey to several rules: <br>
+- master & heroku branches are read-only branches. Only me can pull request, commit and push on it. <br>
+- heroku branch is a deployment branch for Heroku website. <br>
+- develop branch is only a merge branch. Please create a new branch from develop and create a pull request when you need to merge your work. <br>
+- you can fork and use the repository as a template. You're free to do wathever you want on it.<br>
+<br>
+Please respect this rules.
+</p>
+
+Wakstuff is owned by Elio-Centrique. All right reserved &copy; 2019
