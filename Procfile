@@ -1,1 +1,1 @@
-console: bundle exec ruby Wakstuff.rb
+worker: bundle exec ruby Wakstuff.rb
