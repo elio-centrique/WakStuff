@@ -28,3 +28,6 @@ en:
   XPHarvest: "+30% XP Harvest & Planting"
   FarmHarvest: "+20% Quantity of Harvest & +20% Chance of Planting"
   wisdom: "+40 Wisdom"
+  searchCommand: "Search and return EVERY item which contain the given name and ask you to choose. \n Usage: w!search <item name>"
+  chooseNumber: "Please choose a number between theses:"
+  searchEnd: "(Please do not give me another number, it's useless)"
