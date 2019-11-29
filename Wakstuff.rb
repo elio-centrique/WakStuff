@@ -126,8 +126,14 @@ def loadItemList()
         if (item['description'] != nil)
             description = "*" + item['description']["fr"] + "*"
         end
+        title = ""
+        if (item['title'] != nil)
+            title = item['title']["fr"]
+        else
+            title = "undefined"
+        end          
         tmpItem = Item.new(
-            item['title']["fr"], 
+            title, 
             rarity,
             color,
             item['definition']['item']['level'],
@@ -203,8 +209,13 @@ def loadItemList()
         if (item['description'] != nil)
             description = "*" + item['description']["en"] + "*"
         end
+        if (item['title'] != nil)
+            title = item['title']["en"]
+        else
+            title = "undefined"
+        end  
         tmpItem = Item.new(
-            item['title']["en"], 
+            title, 
             rarity,
             color,
             item['definition']['item']['level'],

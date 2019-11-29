@@ -30,4 +30,4 @@ en:
   wisdom: "+40 Wisdom"
   searchCommand: "Search and return EVERY item which contain the given name and ask you to choose. \n Usage: w!search <item name>"
   chooseNumber: "Please choose a number between theses:"
-  searchEnd: "(Please give **only one number**)"
+  searchEnd: "Research finished"
