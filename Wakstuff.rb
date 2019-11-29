@@ -25,7 +25,7 @@ def checkLanguage(event)
     id_server = event.server.id
     id_found = false
     language = ""
-    File.open("config.txt", "r") { |file_lang|
+    File.open("config.txt", "w+") { |file_lang|
         file_lang.each_line do |line|
             if (id_server.to_s == line.split(":")[0])
                 id_found = true
