@@ -25,8 +25,10 @@ def checkLanguage(event)
     id_server = event.server.id
     id_found = false
     language = ""
-    File.open("config.txt", "w+") { |file_lang|
+    File.open("config.txt", "r+") { |file_lang|
         file_lang.each_line do |line|
+            puts id_server
+            puts line.split(":")[0]
             if (id_server.to_s == line.split(":")[0])
                 id_found = true
                 language = line.split(":")[1]
@@ -91,12 +93,6 @@ def loadItemList()
                     level = item['definition']['item']['level'].to_i
                     if (action['description'] != nil)
                         m = action['description']["fr"].encode('utf-8')
-                        m.gsub! "├┤", "ô"
-                        m.gsub! "├®️", "é"
-                        m.gsub! "├ë", "É"
-                        m.gsub! "├«", "î"
-                        m.gsub! "├¬", "ê"
-                        m.gsub! "├á", "à"
                         m.gsub! '[~3]?[#1] Maîtrise [#3]:', ""
                         m.gsub! '[~3]?[#1] Mastery [#3]:', ""
                         m.gsub! '[~3]?[#1] Résistance [#3]:', ""
@@ -420,7 +416,7 @@ bot.command(:setLanguage, min_args: 1, max_args: 1, description: I18n.t(:setLang
                 file_lang.write(id_server.to_s + ":" + language + "\n")
             end
         }
-        I18n.locale = "fr"
+        I18n.locale = language
         event << I18n.t(:setLang1) + args[0] + I18n.t(:setLang2)
     else
         event << I18n.t(:wrongLanguage)
