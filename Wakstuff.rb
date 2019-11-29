@@ -11,26 +11,53 @@ require 'i18n'
 require "date"
 require_relative "Classes/Item.rb"
 
-file = File.read("config.txt")
-file_data = file.split
-
 #file = File.read("token.txt")
 token = ENV["token"]
 
-language = file_data[0]
 I18n.load_path << Dir[File.expand_path("locale") + "/*.yml"]
-I18n.default_locale = language.to_sym
+I18n.default_locale = "en"
 
-listItems = []
-fileItem = File.open("JSON/items.json", "r")
-jsonItem = JSON.load(fileItem)
-fileAction = File.open("JSON/actions.json", "r")
-jsonAction = JSON.load(fileAction)
+$listItemsFR = []
+$listItemsEN = []
 
-def loadItemList(listItems, jsonItem, jsonAction, language)
+def checkLanguage(event)
+    #check language
+    id_server = event.server.id
+    id_found = false
+    language = ""
+    File.open("config.txt", "r") { |file_lang|
+        file_lang.each_line do |line|
+            if (id_server.to_s == line.split(":")[0])
+                id_found = true
+                language = line.split(":")[1]
+            end
+        end
+        if(id_found == false)
+            language = "en"
+            file_lang.write(id_server.to_s + ":" + language + "\n")
+        end
+    }
+    language = language.gsub("\n", "")
+    listItem = nil
+    if(language == "fr")
+        listItem = $listItemsFR
+    else
+        listItem = $listItemsEN
+    end
+    I18n.locale = language
+    return listItem
+end
+
+def loadItemList()
     puts "Creation of the item list, it could take some times"
+    fileItem = File.open("JSON/items.json", "r")
+    jsonItem = JSON.load(fileItem)
+    fileAction = File.open("JSON/actions.json", "r")
+    jsonAction = JSON.load(fileAction)
+
     for item in jsonItem
         rarityNumber = item['definition']['item']['baseParameters']['rarity']
+        I18n.locale = "fr"
         case rarityNumber
         when 1
             rarity = I18n.t(:common)
@@ -63,7 +90,13 @@ def loadItemList(listItems, jsonItem, jsonAction, language)
                     param = bonus['effect']['definition']['params']
                     level = item['definition']['item']['level'].to_i
                     if (action['description'] != nil)
-                        m = action['description'][language].encode("ISO-8859-1").encode('utf-8')
+                        m = action['description']["fr"].encode('utf-8')
+                        m.gsub! "├┤", "ô"
+                        m.gsub! "├®️", "é"
+                        m.gsub! "├ë", "É"
+                        m.gsub! "├«", "î"
+                        m.gsub! "├¬", "ê"
+                        m.gsub! "├á", "à"
                         m.gsub! '[~3]?[#1] Maîtrise [#3]:', ""
                         m.gsub! '[~3]?[#1] Mastery [#3]:', ""
                         m.gsub! '[~3]?[#1] Résistance [#3]:', ""
@@ -91,10 +124,10 @@ def loadItemList(listItems, jsonItem, jsonAction, language)
         end
         description = ""
         if (item['description'] != nil)
-            description = "*" + item['description'][language] + "*"
+            description = "*" + item['description']["fr"] + "*"
         end
         tmpItem = Item.new(
-            item['title'][language], 
+            item['title']["fr"], 
             rarity,
             color,
             item['definition']['item']['level'],
@@ -102,12 +135,89 @@ def loadItemList(listItems, jsonItem, jsonAction, language)
             tmpStats,
             "https://s.ankama.com/www/static.ankama.com/wakfu/portal/game/item/115/" + item['definition']['item']['graphicParameters']['gfxId'].to_s + ".png"
         )
-        listItems.push tmpItem
+        $listItemsFR.push tmpItem
+    end
+
+    for item in jsonItem
+        rarityNumber = item['definition']['item']['baseParameters']['rarity']
+        I18n.locale = "en"
+        case rarityNumber
+        when 1
+            rarity = I18n.t(:common)
+            color = 16777215
+        when 2
+            rarity = I18n.t(:rare)
+            color = 65280
+        when 3
+            rarity = I18n.t(:mythic)
+            color = 16750592
+        when 4
+            rarity = I18n.t(:legendary)
+            color = 16776960
+        when 5
+            rarity = I18n.t(:relic)
+            color = 11075839
+        when 6
+            rarity = I18n.t(:souvenir)
+            color = 52991
+        when 7
+            rarity = I18n.t(:epic)
+            color = 16711935
+        end
+        tmpStats = []
+        for bonus in item['definition']['equipEffects']
+            bonusId = bonus['effect']['definition']['actionId']
+            for action in jsonAction
+                if bonusId === action['definition']['id']
+                    m = ""
+                    param = bonus['effect']['definition']['params']
+                    level = item['definition']['item']['level'].to_i
+                    if (action['description'] != nil)
+                        m = action['description']["en"]
+                        m.gsub! '[~3]?[#1] Maîtrise [#3]:', ""
+                        m.gsub! '[~3]?[#1] Mastery [#3]:', ""
+                        m.gsub! '[~3]?[#1] Résistance [#3]:', ""
+                        m.gsub! '[~3]?[#1] Resistance [#3]:', ""
+                        m.gsub! '[#1]', (param[1].to_i * level + param[0].to_i).to_s
+                        m.gsub! '[#2]', (param[3].to_i * level + param[2].to_i).to_s
+                        m.gsub! '[#3]', (param[5].to_i * level + param[4].to_i).to_s
+                        m.gsub! '[>1]?', ""
+                        m.gsub! '{[>2]?:s}', "s"
+                        m.gsub! '{[>2]?s:}', "s"
+                        m.gsub! '{[=2]?:s}', ""
+                        m.gsub! '{[=2]?s:}', ""
+                        m.gsub! '{[=2]?:}', ""
+                        m.gsub! '[~3]?', ""
+                        m.gsub! "{", ""
+                        m.gsub! "}", ""
+                        m.gsub! '[el1]', I18n.t(:fire)
+                        m.gsub! '[el2]', I18n.t(:water)
+                        m.gsub! '[el3]', I18n.t(:earth)
+                        m.gsub! '[el4]', I18n.t(:air)
+                        tmpStats.push m
+                    end
+                end
+            end
+        end
+        description = ""
+        if (item['description'] != nil)
+            description = "*" + item['description']["en"] + "*"
+        end
+        tmpItem = Item.new(
+            item['title']["en"], 
+            rarity,
+            color,
+            item['definition']['item']['level'],
+            description,
+            tmpStats,
+            "https://s.ankama.com/www/static.ankama.com/wakfu/portal/game/item/115/" + item['definition']['item']['graphicParameters']['gfxId'].to_s + ".png"
+        )
+        $listItemsEN.push tmpItem
     end
     puts "Itemlist finished, enjoy the bot !"
 end
 
-loadItemList(listItems, jsonItem, jsonAction, language)
+loadItemList()
 
 bot = Discordrb::Commands::CommandBot.new token: ENV["token"], prefix: "w!", advanced_functionality: true
 
@@ -132,14 +242,11 @@ bot.command(:almanax, max_args: 0, description: I18n.t(:almanaxCommand)) do |eve
 end
 
 bot.command(:object, min_args: 2, description: I18n.t(:objectCommand)) do |event, *args|
-    fileItem = File.open("JSON/items.json", "r")
-    jsonItem = JSON.load(fileItem)
-    fileAction = File.open("JSON/actions.json", "r")
-    jsonAction = JSON.load(fileAction)
     findObject = false
     findRarity = false
     moreArgs = ""
     level = ""
+    listItem = checkLanguage(event)
 
     if args.length > 2
         moreArgs = args.join(' ')
@@ -148,7 +255,7 @@ bot.command(:object, min_args: 2, description: I18n.t(:objectCommand)) do |event
         moreArgs = args[1]
     end
 
-    for item in listItems
+    for item in listItem
         if moreArgs.downcase === item.name.downcase
             findObject = true
             messageEmbed = ""
@@ -164,12 +271,8 @@ bot.command(:object, min_args: 2, description: I18n.t(:objectCommand)) do |event
             end
         end
     end
-    if moreArgs === "Bath Water" || moreArgs === "Elio Bath Water"
-        event << "My bath water can be found at Ecaflipus in front of the zaap."
-    else
-        if !findObject
-            event << I18n.t(:noObject)
-        end
+    if !findObject
+        event << I18n.t(:noObject)
     end
     if findObject && !findRarity
         event << I18n.t(:noRarity)
@@ -177,14 +280,11 @@ bot.command(:object, min_args: 2, description: I18n.t(:objectCommand)) do |event
 end
 
 bot.command(:compare, max_args: 4, description: I18n.t(:compareCommand)) do |event, *args|
-    fileItem = File.open("JSON/items.json", "r")
-    jsonItem = JSON.load(fileItem)
-    fileAction = File.open("JSON/actions.json", "r")
-    jsonAction = JSON.load(fileAction)
     findObject1 = false
     findRarity1 = false
     findObject2 = false
     findRarity2 = false
+    listItems = checkLanguage(event)
 
     #item 1
     for item in listItems
@@ -235,15 +335,81 @@ bot.command(:compare, max_args: 4, description: I18n.t(:compareCommand)) do |eve
     end
 end
 
+bot.command(:search, description: I18n.t(:searchCommand)) do |event, *args|
+    findObject = false
+    listFound = []
+    listItem = checkLanguage(event)
+
+    for item in listItem
+        if (item.name.downcase.include?(args.join(" ").downcase))
+            findObject = true
+            listFound.push(item)
+        end
+    end
+    if !findObject
+        event << I18n.t(:noObject)
+    else
+        if (listFound.length == 1)
+            event.send_embed do |embed|
+                embed.title = listFound[0].name + " " +I18n.t(:level) + " " + listFound[0].level.to_s
+                embed.description = listFound[0].getStats
+                embed.color = listFound[0].color
+                embed.add_field(name: "Description: ", value: listFound[0].description)
+                embed.image = Discordrb::Webhooks::EmbedImage.new(url: listFound[0].image)
+            end
+        else
+            description = ""
+            i = 1
+            for itemFound in listFound
+                description += i.to_s + ") " + itemFound.name + " " + itemFound.rarity + " " + I18n.t(:level) + " " + itemFound.level.to_s + "\n"
+                i += 1
+            end
+            event.send_embed do |embed|
+                embed.title = I18n.t(:chooseNumber)
+                embed.description = description
+            end
+            event.user.await(:guess) do |eventGuess|
+                guess = eventGuess.message.content.to_i
+                if(guess < 1 or guess > listFound.length)
+                    guessEvent.respond I18n.t(:chooseNumber)
+                    false
+                else
+                    event.send_embed do |embed|
+                        embed.title = listFound[guess - 1].name + " " +I18n.t(:level) + " " + listFound[guess - 1].level.to_s
+                        embed.description = listFound[guess - 1].getStats
+                        embed.color = listFound[guess - 1].color
+                        embed.add_field(name: "Description: ", value: listFound[guess - 1].description)
+                        embed.image = Discordrb::Webhooks::EmbedImage.new(url: listFound[guess - 1].image)
+                    end
+                end
+            end
+        end
+    end
+    I18n.t(:searchEnd)
+end
+
+
 bot.command(:setLanguage, min_args: 1, max_args: 1, description: I18n.t(:setLanguageCommand)) do |event, *args|
     if(args[0] == "fr" or args[0] == "en")
-        conf_file = File.read('config.txt')
-        conf_data = conf_file.split
-        File.write('config.txt', args[0])
-        language = args[0]
-        I18n.default_locale = args[0]
-        event << I18n.t(:loadingItems)
-        loadItemList(listItems, jsonItem, jsonAction, language)
+        language = ""
+        line_file = 0
+        id_found = false
+        id_server = event.server.id
+        File.open("config.txt", "w+") { |file_lang|
+            file_lang.each_line do |line|
+                if (id_server == line.split(":")[0])
+                    id_found = true
+                    line.puts(id_server + ":" + args[0])
+                    language = args[0]
+                end
+                line_file += 1
+            end
+            if(id_found == false)
+                language = args[0]
+                file_lang.write(id_server.to_s + ":" + language + "\n")
+            end
+        }
+        I18n.locale = "fr"
         event << I18n.t(:setLang1) + args[0] + I18n.t(:setLang2)
     else
         event << I18n.t(:wrongLanguage)
@@ -257,6 +423,13 @@ bot.command(:version, max_args: 0, description: I18n.t(:versionCommand)) do |eve
         message += line
     end 
     message
+end
+
+bot.ready() do |event|
+    for server in event.bot.servers
+        puts event.bot.server(server[0]).name
+        puts event.bot.server(server[0]).owner.name
+    end
 end
 
 bot.run

@@ -1,1 +1,1 @@
-Version Beta V0.1.1 Bouftou.
+Version SNAPSHOT Beta V0.2 Moogr
