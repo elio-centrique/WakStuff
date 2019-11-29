@@ -28,3 +28,6 @@ fr:
   XPHarvest: "+30% XP Récolte et Plantation"
   FarmHarvest: "+20% Quantité de Récolte & +20% Chance de Plantation"
   wisdom: "+40 Sagesse"
+  searchCommand: "Cherche et retourne TOUS les équipements qui contiennent le nom donné et demande à l'utilisateur d'en choisir un. \n Utilisation: w!search <nom item>"
+  chooseNumber: "Merci de choisir un chiffre parmi ceux-ci: "
+  searchEnd: "(La liste précédente a été vidée, merci de ne pas redonner de chiffre)"
