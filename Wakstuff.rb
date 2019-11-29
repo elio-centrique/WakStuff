@@ -175,7 +175,7 @@ def loadItemList()
                     param = bonus['effect']['definition']['params']
                     level = item['definition']['item']['level'].to_i
                     if (action['description'] != nil)
-                        m = action['description']["en"]
+                        m = action['description']["en"].encode('utf-8')
                         m.gsub! '[~3]?[#1] Maîtrise [#3]:', ""
                         m.gsub! '[~3]?[#1] Mastery [#3]:', ""
                         m.gsub! '[~3]?[#1] Résistance [#3]:', ""
