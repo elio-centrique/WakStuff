@@ -354,7 +354,6 @@ bot.command(:compare, max_args: 4, description: I18n.t(:compareCommand)) do |eve
                 end
             }
             if !id_found
-                puts [stat1[0], stat1[1], stat1[2]]
                 tabStats2.push [stat1[0], stat1[1], stat1[2]]
             end
         }
@@ -381,14 +380,13 @@ bot.command(:compare, max_args: 4, description: I18n.t(:compareCommand)) do |eve
             end
             statmessage += " (" + indicator.to_s + tabStats2[j][1].to_s + ")"
             if tabStats2[j][2] != 0
-                puts "toto"
                 statmessage += "(" + tabStats2[j][2].to_s + ")"
             end
             tmpMessage2 += statmessage + "\n"
             j += 1
         }
         event.send_embed do |embed|
-            embed.title = I18n.t(:itemVS) + item1.name + " VS " + item2.name
+            embed.title = I18n.t(:itemVS) + item1.name + " " + item1.rarity + " VS " + item2.name + " " + item2.rarity
             embed << Discordrb::Webhooks::EmbedField.new(name: item1.name, value: tmpMessage1, inline: true)
             embed << Discordrb::Webhooks::EmbedField.new(name: item2.name, value: tmpMessage2, inline: true)
         end
