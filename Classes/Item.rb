@@ -1,11 +1,12 @@
 class Item    
-    def initialize(name, rarity, color, level, description, stats, image)
+    def initialize(name, rarity, color, level, description, stats, statsmessages, image)
         @name = name
         @rarity = rarity
         @color = color
         @level = level
         @description = description
         @stats = stats
+        @statsmessages = statsmessages
         @image = image
     end
 
@@ -49,12 +50,16 @@ class Item
         @description = description
     end
 
-    def getStats
+    def getStatsMessage
         message = ""
-        for stat in @stats
+        @statsmessages.each { |stat|
             message += stat + "\n"
-        end
+        }
         return message
+    end
+
+    def statsmessages
+        @statsmessages
     end
 
     def setStats(stats)
@@ -63,5 +68,13 @@ class Item
 
     def image
         @image
+    end
+
+    def stats
+        @stats
+    end
+
+    def setStatsMessage(statsMessage)
+        @statsmessages = statsMessage
     end
 end
