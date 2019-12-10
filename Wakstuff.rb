@@ -392,9 +392,6 @@ bot.command(:compare, max_args: 4, description: I18n.t(:compareCommand)) do |eve
             end
             statmessage = stat[4].to_s
             statmessage += " (" + indicator.to_s + tabStats1[i][1].to_s + ")"
-            if tabStats1[i][2] != 0
-                statmessage += "(" + tabStats1[i][2].to_s + ")"
-            end
             tmpMessage1 += statmessage + "\n"
             i += 1
         }
