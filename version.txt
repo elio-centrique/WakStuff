@@ -1,1 +1,1 @@
-Version SNAPSHOT Beta V0.3 Grinch
+Version SNAPSHOT Beta V0.3.1 Grinched Grinch

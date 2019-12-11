@@ -20,6 +20,8 @@ I18n.default_locale = "en"
 $listItemsFR = []
 $listItemsEN = []
 
+$exampleSort = [31, 56, 41, 57, 191, 192, 161, 160, 184, 20, 166, 162, 167, 163, 175, 174, 173, 174, 176, 171, 150, 168, 126, 875, 120, 130, 122, 132, 123, 124, 125, 149, 151, 1068, 26, 180, 181, 1050, 1051, 1052, 1053, 1055, 1056, 1060, 1061, 80, 100, 1069, 82, 97, 83, 98, 84, 96, 85, 71, 988, 1062, 1063, 234, 2000, 2001, 2002, 2006, 2008]
+
 def checkLanguage(event)
     #check language
     id_server = event.server.id
@@ -77,7 +79,6 @@ def loadItemList()
             rarity = I18n.t(:epic)
             color = 16711935
         end
-        tmpStatsMessage = []
         tmpStats = []
         item['definition']['equipEffects'].each { |bonus|
             bonusId = bonus['effect']['definition']['actionId']
@@ -108,8 +109,12 @@ def loadItemList()
                         m.gsub! '[el2]', I18n.t(:water)
                         m.gsub! '[el3]', I18n.t(:earth)
                         m.gsub! '[el4]', I18n.t(:air)
-                        tmpStats.push [bonusId, param[1].to_i * level + param[0].to_i, param[3].to_i * level + param[2].to_i, param[5].to_i * level + param[4].to_i]
-                        tmpStatsMessage.push m
+                        tmpStats.push [bonusId,
+                                       param[1].to_i * level + param[0].to_i,
+                                       param[3].to_i * level + param[2].to_i,
+                                       param[5].to_i * level + param[4].to_i,
+                                       m
+                        ]
                     end
                 end
             }
@@ -118,16 +123,25 @@ def loadItemList()
         if item['description'] != nil
             description = "*" + item['description']["fr"] + "*"
         end
-        title = ""
+        sortedStats = []
+        $exampleSort.each_with_index { |idExample, indexExample|
+            tmpStats.each { |stat|
+                if stat[0] == idExample
+                    sortedStats[indexExample] = stat
+                end
+            }
+        }
+
+        sortedStats = sortedStats.reject! {|stat| stat.nil? }
         (item['title'] != nil) ? title = item['title']["fr"] : title = "undefined"
+
         tmpItem = Item.new(
             title,
             rarity,
             color,
             item['definition']['item']['level'],
             description,
-            tmpStats,
-            tmpStatsMessage,
+            sortedStats,
             "https://s.ankama.com/www/static.ankama.com/wakfu/portal/game/item/115/" + item['definition']['item']['graphicParameters']['gfxId'].to_s + ".png"
         )
         $listItemsFR.push tmpItem
@@ -159,7 +173,6 @@ def loadItemList()
             rarity = I18n.t(:epic)
             color = 16711935
         end
-        tmpStatsMessage = []
         tmpStats = []
         item['definition']['equipEffects'].each { |bonus|
             bonusId = bonus['effect']['definition']['actionId']
@@ -190,8 +203,12 @@ def loadItemList()
                         m.gsub! '[el2]', I18n.t(:water)
                         m.gsub! '[el3]', I18n.t(:earth)
                         m.gsub! '[el4]', I18n.t(:air)
-                        tmpStatsMessage.push m
-                        tmpStats.push([bonusId, param[1].to_i * level + param[0].to_i, param[3].to_i * level + param[2].to_i, param[5].to_i * level + param[4].to_i])
+                        tmpStats.push([bonusId,
+                                       param[1].to_i * level + param[0].to_i,
+                                       param[3].to_i * level + param[2].to_i,
+                                       param[5].to_i * level + param[4].to_i,
+                                       m
+                        ])
                     end
                 end
             }
@@ -201,14 +218,22 @@ def loadItemList()
             description = "*" + item['description']["en"] + "*"
         end
         (item['title'] != nil) ? title = item['title']["en"] : title = "undefined"
+        sortedStats = []
+        $exampleSort.each_with_index { |idExample, indexExample|
+            tmpStats.each { |stat|
+                if stat[0] == idExample
+                    sortedStats[indexExample] = stat
+                end
+            }
+        }
+        sortedStats = sortedStats.reject! {|stat| stat.nil? }
         tmpItem = Item.new(
             title,
             rarity,
             color,
             item['definition']['item']['level'],
             description,
-            tmpStats,
-            tmpStatsMessage,
+            sortedStats,
             "https://s.ankama.com/www/static.ankama.com/wakfu/portal/game/item/115/" + item['definition']['item']['graphicParameters']['gfxId'].to_s + ".png"
         )
         $listItemsEN.push tmpItem
@@ -291,7 +316,6 @@ bot.command(:compare, max_args: 4, description: I18n.t(:compareCommand)) do |eve
     listItems.each { |item|
         if args[1].downcase === item.name.downcase
             findObject1 = true
-            messageEmbed = ""
             if args[0].downcase == item.rarity.downcase
                 findRarity1 = true
                 item1 = item
@@ -316,7 +340,7 @@ bot.command(:compare, max_args: 4, description: I18n.t(:compareCommand)) do |eve
             end
         end
     }
-    if !findObject2
+    unless findObject2
         event << args[3] + I18n.t(:noObject)
     end
     if findObject2 && !findRarity2
@@ -361,23 +385,22 @@ bot.command(:compare, max_args: 4, description: I18n.t(:compareCommand)) do |eve
         j = 0
         tmpMessage1 = ""
         tmpMessage2 = ""
-        item1.statsmessages.each { |statmessage|
+        item1.stats.each { |stat|
             indicator = ""
             if tabStats1[i][1] >= 0
                 indicator = "+"
             end
+            statmessage = stat[4].to_s
             statmessage += " (" + indicator.to_s + tabStats1[i][1].to_s + ")"
-            if tabStats1[i][2] != 0
-                statmessage += "(" + tabStats1[i][2].to_s + ")"
-            end
             tmpMessage1 += statmessage + "\n"
             i += 1
         }
-        item2.statsmessages.each { |statmessage|
+        item2.stats.each { |stat|
             indicator = ""
             if tabStats2[j][1] >= 0
                 indicator = "+"
             end
+            statmessage = stat[4].to_s
             statmessage += " (" + indicator.to_s + tabStats2[j][1].to_s + ")"
             if tabStats2[j][2] != 0
                 statmessage += "(" + tabStats2[j][2].to_s + ")"
