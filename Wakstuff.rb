@@ -243,7 +243,7 @@ end
 
 loadItemList()
 
-bot = Discordrb::Commands::CommandBot.new token: ENV["token"], prefix: "w!", advanced_functionality: true
+bot = Discordrb::Commands::CommandBot.new token: ENV["token"], prefix: "w!", advanced_functionality: true, compress_mode: :large
 
 bot.command(:almanax, max_args: 0, description: I18n.t(:almanaxCommand)) do |event|
     message = I18n.t(:almanaxEvent)
