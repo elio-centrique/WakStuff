@@ -505,12 +505,4 @@ bot.command(:version, max_args: 0, description: I18n.t(:versionCommand)) do |eve
     end 
     message
 end
-
-bot.ready() do |event|
-    event.bot.servers.each { |server|
-        puts event.bot.server(server[0]).name
-        puts event.bot.server(server[0]).owner.name
-    }
-end
-
 bot.run
