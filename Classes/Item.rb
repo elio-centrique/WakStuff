@@ -51,9 +51,11 @@ class Item
 
     def getStatsMessage
         message = ""
-        @stats.each { |stat|
-            message += stat[4] + "\n"
-        }
+        if @stats != nil
+            @stats.each { |stat|
+                message += stat[4] + "\n"
+            }
+        end
         return message
     end
 
