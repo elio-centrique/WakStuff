@@ -87,6 +87,9 @@ def loadItemList()
                     m = ""
                     param = bonus['effect']['definition']['params']
                     level = item['definition']['item']['level'].to_i
+                    if item['definition']['item']['baseParameters']['itemTypeId'] == 582
+                        level += 50
+                    end
                     if action['description'] != nil
                         m = action['description']["fr"].encode('utf-8')
                         m.gsub! '[~3]?[#1] Maîtrise [#3]:', ""
@@ -134,12 +137,15 @@ def loadItemList()
 
         sortedStats = sortedStats.reject! {|stat| stat.nil? }
         (item['title'] != nil) ? title = item['title']["fr"] : title = "undefined"
-
+        level = item['definition']['item']['level'].to_i
+        if item['definition']['item']['baseParameters']['itemTypeId'] == 582
+            level += 50
+        end
         tmpItem = Item.new(
             title,
             rarity,
             color,
-            item['definition']['item']['level'],
+            level,
             description,
             sortedStats,
             "https://s.ankama.com/www/static.ankama.com/wakfu/portal/game/item/115/" + item['definition']['item']['graphicParameters']['gfxId'].to_s + ".png"
@@ -181,6 +187,9 @@ def loadItemList()
                     m = ""
                     param = bonus['effect']['definition']['params']
                     level = item['definition']['item']['level'].to_i
+                    if item['definition']['item']['baseParameters']['itemTypeId'] == 582
+                        level += 50
+                    end
                     if action['description'] != nil
                         m = action['description']["en"].encode('utf-8')
                         m.gsub! '[~3]?[#1] Maîtrise [#3]:', ""
@@ -227,11 +236,15 @@ def loadItemList()
             }
         }
         sortedStats = sortedStats.reject! {|stat| stat.nil? }
+        level = item['definition']['item']['level'].to_i
+        if item['definition']['item']['baseParameters']['itemTypeId'] == 582
+            level += 50
+        end
         tmpItem = Item.new(
             title,
             rarity,
             color,
-            item['definition']['item']['level'],
+            level,
             description,
             sortedStats,
             "https://s.ankama.com/www/static.ankama.com/wakfu/portal/game/item/115/" + item['definition']['item']['graphicParameters']['gfxId'].to_s + ".png"
@@ -245,24 +258,49 @@ loadItemList()
 
 bot = Discordrb::Commands::CommandBot.new token: ENV["token"], prefix: "w!", advanced_functionality: true, compress_mode: :large
 
-bot.command(:almanax, max_args: 0, description: I18n.t(:almanaxCommand)) do |event|
-    message = I18n.t(:almanaxEvent)
-    today = Date.today
-    compare = Date.new(2019, 11, 21)
-    difference = (today - compare).to_i
-    if difference % 5 == 0
-        message += I18n.t(:prospecting)
-    elsif difference % 5 == 1
-        message += I18n.t(:craft)
-    elsif difference % 5 == 2
-        message += I18n.t(:XPHarvest)
-    elsif difference %5 == 3
-        message += I18n.t(:FarmHarvest)
-    elsif difference %5 == 4
-        message += I18n.t(:wisdom)
+bot.command(:almanax, min_args: 0, max_args: 1, description: I18n.t(:almanaxCommand)) do |event, *args|
+    if !args
+        checkLanguage(event)
+        message = I18n.t(:almanaxEvent)
+        today = Date.today
+        compare = Date.new(2019, 11, 21)
+        difference = (today - compare).to_i
+        if difference % 5 == 0
+            message += I18n.t(:prospecting)
+        elsif difference % 5 == 1
+            message += I18n.t(:craft)
+        elsif difference % 5 == 2
+            message += I18n.t(:XPHarvest)
+        elsif difference %5 == 3
+            message += I18n.t(:FarmHarvest)
+        elsif difference %5 == 4
+            message += I18n.t(:wisdom)
+        end
+        event << event.user.name + I18n.t(:checkDM)
+        event.user.pm(message)
+    else
+        if args[0] == 'ici' || args[0] == 'here'
+            checkLanguage(event)
+            message = I18n.t(:almanaxEvent)
+            today = Date.today
+            compare = Date.new(2019, 11, 21)
+            difference = (today - compare).to_i
+            if difference % 5 == 0
+                message += I18n.t(:prospecting)
+            elsif difference % 5 == 1
+                message += I18n.t(:craft)
+            elsif difference % 5 == 2
+                message += I18n.t(:XPHarvest)
+            elsif difference %5 == 3
+                message += I18n.t(:FarmHarvest)
+            elsif difference %5 == 4
+                message += I18n.t(:wisdom)
+                event << message
+            end
+        else
+            event << I18n.t(:correctUsage) + "w!almanax [ici/here]"
+        end
     end
-    event << event.user.name + I18n.t(:checkDM)
-    event.user.pm(message)
 end
 
 bot.command(:object, min_args: 2, description: I18n.t(:objectCommand)) do |event, *args|
@@ -470,7 +508,7 @@ bot.command(:search, description: I18n.t(:searchCommand)) do |event, *args|
 end
 
 
-bot.command(:setLanguage, min_args: 1, max_args: 1, description: I18n.t(:setLanguageCommand)) do |event, *args|
+bot.command(:setLanguage, min_args: 1, max_args: 1, description: I18n.t(:setLanguageCommand), permission_level: 16) do |event, *args|
     if(args[0] == "fr" or args[0] == "en")
         language = ""
         line_file = 0
