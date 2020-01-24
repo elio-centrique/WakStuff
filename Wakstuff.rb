@@ -508,7 +508,7 @@ bot.command(:search, description: I18n.t(:searchCommand)) do |event, *args|
 end
 
 
-bot.command(:setLanguage, min_args: 1, max_args: 1, description: I18n.t(:setLanguageCommand), permission_level: 16) do |event, *args|
+bot.command(:setLanguage, min_args: 1, max_args: 1, description: I18n.t(:setLanguageCommand)) do |event, *args|
     if(args[0] == "fr" or args[0] == "en")
         language = ""
         line_file = 0
