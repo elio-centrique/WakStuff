@@ -24,6 +24,7 @@ $listItemsEN = []
 $exampleSort = [31, 56, 41, 57, 191, 192, 161, 160, 184, 20, 166, 162, 167, 163, 175, 174, 173, 174, 176, 171, 150, 168, 126, 875, 120, 130, 122, 132, 123, 124, 125, 149, 151, 1068, 26, 180, 181, 1050, 1051, 1052, 1053, 1055, 1056, 1060, 1061, 80, 100, 1069, 82, 97, 83, 98, 84, 96, 85, 71, 988, 1062, 1063, 234, 2000, 2001, 2002, 2006, 2008]
 client = Mongo::Client.new('mongodb+srv://' + ENV['db_user'] + ":" + ENV['db_pass'] + "@" + ENV['db_name'] + "-l6ey6.gcp.mongodb.net/test?retryWrites=true&w=majority", :database => 'guilds')
 collection = client[:guilds]
+client.setLogLevel(1)
 
 def checkLanguage(event)
     #check language
