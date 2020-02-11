@@ -44,7 +44,8 @@ def checkLanguage(event)
         end
     }
     /
-    language = collection.find({"id_server" => id_server}).first()
+    puts client[:guilds].find({"id_server" => id_server}).first()
+    language = "fr"
     listItem = nil
     (language == "fr") ? listItem = $listItemsFR : listItem = $listItemsEN
     I18n.locale = language
