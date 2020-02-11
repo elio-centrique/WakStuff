@@ -9,6 +9,7 @@ require 'discordrb'
 require 'discordrb/webhooks'
 require 'i18n'
 require "date"
+require 'mongo'
 require_relative "Classes/Item.rb"
 
 #file = File.read("token.txt")
@@ -21,12 +22,15 @@ $listItemsFR = []
 $listItemsEN = []
 
 $exampleSort = [31, 56, 41, 57, 191, 192, 161, 160, 184, 20, 166, 162, 167, 163, 175, 174, 173, 174, 176, 171, 150, 168, 126, 875, 120, 130, 122, 132, 123, 124, 125, 149, 151, 1068, 26, 180, 181, 1050, 1051, 1052, 1053, 1055, 1056, 1060, 1061, 80, 100, 1069, 82, 97, 83, 98, 84, 96, 85, 71, 988, 1062, 1063, 234, 2000, 2001, 2002, 2006, 2008]
+client = Mongo::Client.new('mongodb+srv://' + ENV['db_user'] + ":" + ENV['db_pass'] + "@" + ENV['db_name'] + "-l6ey6.gcp.mongodb.net/test?retryWrites=true&w=majority")
+collection = client[:wakstuff]
 
 def checkLanguage(event)
     #check language
     id_server = event.server.id
     id_found = false
     language = ""
+    /
     File.open("config.txt", "r+") { |file_lang|
         file_lang.each_line do |line|
             if id_server.to_s == line.split(":")[0]
@@ -39,7 +43,8 @@ def checkLanguage(event)
             file_lang.write(id_server.to_s + ":" + language + "\n")
         end
     }
-    language = language.gsub("\n", "")
+    /
+    language = collection.find({id_server: id_server}).first()['language']
     listItem = nil
     (language == "fr") ? listItem = $listItemsFR : listItem = $listItemsEN
     I18n.locale = language
@@ -473,6 +478,7 @@ end
 bot.command(:setLanguage, min_args: 1, max_args: 1, description: I18n.t(:setLanguageCommand)) do |event, *args|
     if(args[0] == "fr" or args[0] == "en")
         language = ""
+        /
         line_file = 0
         id_found = false
         id_server = event.server.id
@@ -490,7 +496,18 @@ bot.command(:setLanguage, min_args: 1, max_args: 1, description: I18n.t(:setLang
                 file_lang.write(id_server.to_s + ":" + language + "\n")
             end
         }
-        I18n.locale = language
+        /
+        if(collection.find(:id_server => event.server.id).first() and collection.find(:id_server => event.server.id).first() != {})
+            collection.update_one({:id_server => event.server.id}, {$set => {:language => args[0]} })
+        else
+            doc = {
+                id_server: event.server.id,
+                language: args[0]
+              }
+            collection.insert_one(doc)
+        end
+
+        I18n.locale = args[0]
         event << I18n.t(:setLang1) + args[0] + I18n.t(:setLang2)
     else
         event << I18n.t(:wrongLanguage)
