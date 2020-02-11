@@ -495,7 +495,7 @@ bot.command(:search, description: I18n.t(:searchCommand)) do |event, *args|
             event.user.await(:guess) do |eventGuess|
                 guess = eventGuess.message.content.to_i
                 if(guess < 1 or guess > listFound.length)
-                    guessEvent.respond I18n.t(:chooseNumber)
+                    guess.respond I18n.t(:chooseNumber)
                     false
                 else
                     event.send_embed do |embed|
