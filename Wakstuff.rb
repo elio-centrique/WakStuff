@@ -25,7 +25,7 @@ $exampleSort = [31, 56, 41, 57, 191, 192, 161, 160, 184, 20, 166, 162, 167, 163,
 client = Mongo::Client.new('mongodb+srv://' + ENV['db_user'] + ":" + ENV['db_pass'] + "@" + ENV['db_name'] + "-l6ey6.gcp.mongodb.net/test?retryWrites=true&w=majority", :database => 'Wakstuff', :monitoring => false)
 collection = client[:guilds]
 
-def checkLanguage(event)
+def checkLanguage(event, client)
     #check language
     id_server = event.server.id
     id_found = false
@@ -266,7 +266,7 @@ bot = Discordrb::Commands::CommandBot.new token: ENV["token"], prefix: "w!", adv
 
 bot.command(:almanax, min_args: 0, max_args: 1, description: I18n.t(:almanaxCommand)) do |event, *args|
     if !args
-        checkLanguage(event)
+        checkLanguage(event,client)
         message = I18n.t(:almanaxEvent)
         today = Date.today
         compare = Date.new(2019, 11, 21)
@@ -286,7 +286,7 @@ bot.command(:almanax, min_args: 0, max_args: 1, description: I18n.t(:almanaxComm
         event.user.pm(message)
     else
         if args[0] == 'ici' || args[0] == 'here'
-            checkLanguage(event)
+            checkLanguage(event,client)
             message = I18n.t(:almanaxEvent)
             today = Date.today
             compare = Date.new(2019, 11, 21)
@@ -314,7 +314,7 @@ bot.command(:object, min_args: 2, description: I18n.t(:objectCommand)) do |event
     findRarity = false
     moreArgs = ""
     level = ""
-    listItem = checkLanguage(event)
+    listItem = checkLanguage(event,client)
 
     if args.length > 2
         moreArgs = args.join(' ')
@@ -354,7 +354,7 @@ bot.command(:compare, max_args: 4, description: I18n.t(:compareCommand)) do |eve
     findRarity2 = false
     item1 = nil
     item2 = nil
-    listItems = checkLanguage(event)
+    listItems = checkLanguage(event, client)
 
     #item 1
     listItems.each { |item|
@@ -463,7 +463,7 @@ end
 bot.command(:search, description: I18n.t(:searchCommand)) do |event, *args|
     findObject = false
     listFound = []
-    listItem = checkLanguage(event)
+    listItem = checkLanguage(event, client)
 
     listItem.each { |item|
         if item.name.downcase.include?(args.join(" ").downcase)
