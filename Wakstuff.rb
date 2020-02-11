@@ -44,6 +44,8 @@ def checkLanguage(event)
         end
     }
     /
+    puts collection
+    puts client
     language = collection.find({id_server: id_server}).first()['language']
     puts language
     listItem = nil
