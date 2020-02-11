@@ -45,6 +45,7 @@ def checkLanguage(event, client)
     }
     /
     puts client[:guilds].find({"id_server" => id_server}).first()
+    puts client
     language = "fr"
     listItem = nil
     (language == "fr") ? listItem = $listItemsFR : listItem = $listItemsEN
