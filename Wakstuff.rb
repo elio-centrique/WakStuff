@@ -45,6 +45,7 @@ def checkLanguage(event)
     }
     /
     language = collection.find({id_server: id_server}).first()['language']
+    puts language
     listItem = nil
     (language == "fr") ? listItem = $listItemsFR : listItem = $listItemsEN
     I18n.locale = language
@@ -536,14 +537,15 @@ bot.command(:setLanguage, min_args: 1, max_args: 1, description: I18n.t(:setLang
         }
         /
         if(collection.find(:id_server => event.server.id).first() and collection.find(:id_server => event.server.id).first() != {})
-            puts collection
-            collection.update_one({:id_server => event.server.id}, {$set => {:language => args[0]} })
+            result = collection.update_one({:id_server => event.server.id}, {$set => {:language => args[0]} })
+            puts result
         else
             doc = {
                 id_server: event.server.id,
                 language: args[0]
               }
-            collection.insert_one(doc)
+            result = collection.insert_one(doc)
+            puts result
         end
 
         I18n.locale = args[0]
