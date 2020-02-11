@@ -30,7 +30,7 @@ def checkLanguage(event, client)
     id_server = event.server.id
     id_found = false
     language = ""
-    /
+    
     File.open("config.txt", "r+") { |file_lang|
         file_lang.each_line do |line|
             if id_server.to_s == line.split(":")[0]
@@ -43,8 +43,7 @@ def checkLanguage(event, client)
             file_lang.write(id_server.to_s + ":" + language + "\n")
         end
     }
-    /
-    language = "fr"
+    
     listItem = nil
     (language == "fr") ? listItem = $listItemsFR : listItem = $listItemsEN
     I18n.locale = language
@@ -517,7 +516,7 @@ end
 bot.command(:setLanguage, min_args: 1, max_args: 1, description: I18n.t(:setLanguageCommand)) do |event, *args|
     if(args[0] == "fr" or args[0] == "en")
         language = ""
-        /
+        
         line_file = 0
         id_found = false
         id_server = event.server.id
@@ -551,7 +550,7 @@ bot.command(:setLanguage, min_args: 1, max_args: 1, description: I18n.t(:setLang
               }
             result = collection.insert_one(doc)
         end
-
+        /
         I18n.locale = args[0]
         event << I18n.t(:setLang1) + args[0] + I18n.t(:setLang2)
     else
