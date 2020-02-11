@@ -43,7 +43,7 @@ def checkLanguage(event, client)
             file_lang.write(id_server.to_s + ":" + language + "\n")
         end
     }
-    
+    language = language.gsub("\n", "")
     listItem = nil
     (language == "fr") ? listItem = $listItemsFR : listItem = $listItemsEN
     I18n.locale = language
