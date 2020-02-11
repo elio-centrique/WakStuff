@@ -462,7 +462,7 @@ end
 bot.command(:search, description: I18n.t(:searchCommand)) do |event, *args|
     findObject = false
     listFound = []
-    puts client[:guilds].find({"id_server" => id_server}).first()
+    puts client[:guilds].find({"id_server" => event.server.id}).first()
     listItem = checkLanguage(event, client)
 
     listItem.each { |item|
