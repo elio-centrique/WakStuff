@@ -44,8 +44,6 @@ def checkLanguage(event, client)
         end
     }
     /
-    puts client[:guilds].find({"id_server" => id_server}).first()
-    puts client
     language = "fr"
     listItem = nil
     (language == "fr") ? listItem = $listItemsFR : listItem = $listItemsEN
@@ -464,6 +462,7 @@ end
 bot.command(:search, description: I18n.t(:searchCommand)) do |event, *args|
     findObject = false
     listFound = []
+    puts client[:guilds].find({"id_server" => id_server}).first()
     listItem = checkLanguage(event, client)
 
     listItem.each { |item|
