@@ -12,8 +12,6 @@ require "date"
 require 'mongo'
 require_relative "Classes/Item.rb"
 
-#file = File.read("token.txt")
-
 I18n.load_path << Dir[File.expand_path("locale") + "/*.yml"]
 I18n.default_locale = "en"
 
@@ -21,6 +19,7 @@ $listItemsFR = []
 $listItemsEN = []
 
 $exampleSort = [31, 56, 41, 57, 191, 192, 161, 160, 184, 20, 166, 162, 167, 163, 175, 174, 173, 174, 176, 171, 150, 168, 126, 875, 120, 130, 122, 132, 123, 124, 125, 149, 151, 1068, 26, 180, 181, 1050, 1051, 1052, 1053, 1055, 1056, 1060, 1061, 80, 100, 1069, 82, 97, 83, 98, 84, 96, 85, 71, 988, 1062, 1063, 234, 2000, 2001, 2002, 2006, 2008]
+$debuff_ids = [96, 97, 98, 100, 130, 132, 161, 167, 168, 172, 174, 176, 181, 194, 876, 1056, 1060, 1061, 1062, 1063]
 client = Mongo::Client.new('mongodb+srv://' + ENV['db_user'] + ":" + ENV['db_pass'] + "@" + ENV['db_name'] + "-l6ey6.gcp.mongodb.net/test?retryWrites=true&w=majority", :database => 'Wakstuff', :monitoring => false)
 
 def checkLanguage(event, client)
@@ -380,6 +379,9 @@ bot.command(:compare, max_args: 4, description: I18n.t(:compareCommand)) do |eve
         tabStats2 = []
         item1.stats.each { |stat1|
             id_found = false
+            if $debuff_ids.include?(stat1[0])
+                stat1[1] = stat1[1] * -1
+            end
             item2.stats.each { |stat2|
                 if stat1[0] == stat2[0]
                     id_found = true
@@ -396,6 +398,9 @@ bot.command(:compare, max_args: 4, description: I18n.t(:compareCommand)) do |eve
         }
         item2.stats.each { |stat1|
             id_found = false
+            if $debuff_ids.include?(stat1[0])
+                stat1[1] = stat1[1] * -1
+            end
             item1.stats.each { |stat2|
                 if stat1[0] == stat2[0]
                     id_found = true
@@ -431,9 +436,6 @@ bot.command(:compare, max_args: 4, description: I18n.t(:compareCommand)) do |eve
             end
             statmessage = stat[4].to_s
             statmessage += " (" + indicator.to_s + tabStats2[j][1].to_s + ")"
-            if tabStats2[j][2] != 0
-                statmessage += "(" + tabStats2[j][2].to_s + ")"
-            end
             tmpMessage2 += statmessage + "\n"
             j += 1
         }
