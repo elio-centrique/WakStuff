@@ -13,7 +13,6 @@ require 'mongo'
 require_relative "Classes/Item.rb"
 
 #file = File.read("token.txt")
-token = ENV["token"]
 
 I18n.load_path << Dir[File.expand_path("locale") + "/*.yml"]
 I18n.default_locale = "en"
@@ -23,27 +22,15 @@ $listItemsEN = []
 
 $exampleSort = [31, 56, 41, 57, 191, 192, 161, 160, 184, 20, 166, 162, 167, 163, 175, 174, 173, 174, 176, 171, 150, 168, 126, 875, 120, 130, 122, 132, 123, 124, 125, 149, 151, 1068, 26, 180, 181, 1050, 1051, 1052, 1053, 1055, 1056, 1060, 1061, 80, 100, 1069, 82, 97, 83, 98, 84, 96, 85, 71, 988, 1062, 1063, 234, 2000, 2001, 2002, 2006, 2008]
 client = Mongo::Client.new('mongodb+srv://' + ENV['db_user'] + ":" + ENV['db_pass'] + "@" + ENV['db_name'] + "-l6ey6.gcp.mongodb.net/test?retryWrites=true&w=majority", :database => 'Wakstuff', :monitoring => false)
-collection = client[:guilds]
 
 def checkLanguage(event, client)
     #check language
     id_server = event.server.id
     id_found = false
     language = ""
-    
-    File.open("config.txt", "r+") { |file_lang|
-        file_lang.each_line do |line|
-            if id_server.to_s == line.split(":")[0]
-                id_found = true
-                language = line.split(":")[1]
-            end
-        end
-        if(id_found == false)
-            language = "en"
-            file_lang.write(id_server.to_s + ":" + language + "\n")
-        end
+    client[:guilds].find(:id_server => id_server).each {|doc|
+        language = doc['language']
     }
-    language = language.gsub("\n", "")
     listItem = nil
     (language == "fr") ? listItem = $listItemsFR : listItem = $listItemsEN
     I18n.locale = language
@@ -260,7 +247,7 @@ end
 
 loadItemList()
 
-bot = Discordrb::Commands::CommandBot.new token: ENV["token"], prefix: "w!", advanced_functionality: true, compress_mode: :large
+bot = Discordrb::Commands::CommandBot.new token: ENV['token'], prefix: "w!", advanced_functionality: true, compress_mode: :large
 
 bot.command(:almanax, min_args: 0, max_args: 1, description: I18n.t(:almanaxCommand)) do |event, *args|
     if !args
@@ -519,38 +506,16 @@ bot.command(:setLanguage, min_args: 1, max_args: 1, description: I18n.t(:setLang
         
         line_file = 0
         id_found = false
-        id_server = event.server.id
-        File.open("config.txt", "w+") { |file_lang|
-            file_lang.each_line do |line|
-                if id_server == line.split(":")[0]
-                    id_found = true
-                    line.puts(id_server + ":" + args[0])
-                    language = args[0]
-                end
-                line_file += 1
-            end
-            if(id_found == false)
-                language = args[0]
-                file_lang.write(id_server.to_s + ":" + language + "\n")
-            end
-        }
-        /
-        if(collection.find("id_server" => event.server.id).first())
-            result = collection.update_one({"id_server" => event.server.id}, 
-                {"$set" => 
-                    {
-                        :language => args[0]
-                    } 
-                }
-            )
+        id_server = event.server.id 
+        if(client[:guilds].find(:id_server => id_server).limit(1).first)
+            result = client[:guilds].update_one({:id_server => id_server}, {"$set" => {:language => args[0]}})
         else
             doc = {
-                id_server: event.server.id,
+                id_server: id_server,
                 language: args[0]
               }
-            result = collection.insert_one(doc)
+            result = client[:guilds].insert_one(doc)
         end
-        /
         I18n.locale = args[0]
         event << I18n.t(:setLang1) + args[0] + I18n.t(:setLang2)
     else
@@ -566,4 +531,5 @@ bot.command(:version, max_args: 0, description: I18n.t(:versionCommand)) do |eve
     end 
     message
 end
+
 bot.run
