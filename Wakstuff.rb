@@ -249,7 +249,7 @@ loadItemList()
 bot = Discordrb::Commands::CommandBot.new token: ENV['token'], prefix: "w!", advanced_functionality: true, compress_mode: :large
 
 bot.command(:almanax, min_args: 0, max_args: 1, description: I18n.t(:almanaxCommand)) do |event, *args|
-    if !args
+    if args.length == 0
         checkLanguage(event,client)
         message = I18n.t(:almanaxEvent)
         today = Date.today
