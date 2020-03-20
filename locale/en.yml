@@ -31,4 +31,5 @@ en:
   searchCommand: "Search and return EVERY item which contain the given name and ask you to choose. \n Usage: w!search <item name>"
   chooseNumber: "Please choose a number between theses:"
   searchEnd: "Research finished"
-  itemVS: "Items comparison: "
+  itemVS: "Items comparison: " 
+  correctUsage: "Bad utage, please use: "
