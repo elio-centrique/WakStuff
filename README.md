@@ -1,5 +1,5 @@
 # WakStuff
-<p>WakStuff is a bot created with the JSON data provided by Ankama Games&copy; <br>
+<p>WakStuff is a Discord bot for the game Wakfu&copy; created with the JSON data provided by Ankama Games&copy; <br>
 WakStuff was developed to give informations about gears, and other usefull features.
 </p>
 
