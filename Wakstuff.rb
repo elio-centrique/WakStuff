@@ -203,7 +203,7 @@ def loadItemList()
                         m.gsub! '[~3]?[#1] Mastery [#3]:', ""
                         m.gsub! '[~3]?[#1] Résistance [#3]:', ""
                         m.gsub! '[~3]?[#1] Resistance [#3]:', ""
-                        if m.include? "{[~2]? en [#2]:}"
+                        if m.include? "{[~2]? in [#2]:}"
                             case param[3].to_i * level + param[2].to_i
                             when 64
                                 m.gsub! "{[~2]? in [#2]:}", " in farmer."
