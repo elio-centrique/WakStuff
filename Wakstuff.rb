@@ -148,16 +148,6 @@ def loadItemList()
             level += 50
         end
 
-        if item['definition']['item']['id'] == 26593
-            puts "épée éternelle: " + sortedStats.to_s
-            puts sortedStats.nil?
-
-        end
-
-        if item['definition']['item']['id'] == 2023
-            puts "boufbottes: " + sortedStats.to_s
-        end
-
         tmpItem = Item.new(
             title,
             rarity,
@@ -213,6 +203,22 @@ def loadItemList()
                         m.gsub! '[~3]?[#1] Mastery [#3]:', ""
                         m.gsub! '[~3]?[#1] Résistance [#3]:', ""
                         m.gsub! '[~3]?[#1] Resistance [#3]:', ""
+                        if m.include? "{[~2]? en [#2]:}"
+                            case param[3].to_i * level + param[2].to_i
+                            when 64
+                                m.gsub! "{[~2]? en [#2]:}", " in farmer."
+                            when 71
+                                m.gsub! "{[~2]? en [#2]:}", " in lumberjack."
+                            when 72
+                                m.gsub! "{[~2]? en [#2]:}", " in herbalist."
+                            when 73
+                                m.gsub! "{[~2]? en [#2]:}", " in miner."
+                            when 74
+                                m.gsub! "{[~2]? en [#2]:}", " in trapper."
+                            when 75
+                                m.gsub! "{[~2]? en [#2]:}", " in fisherman."
+                            end
+                        end
                         m.gsub! '[#1]', (param[1].to_i * level + param[0].to_i).to_s
                         m.gsub! '[#2]', (param[3].to_i * level + param[2].to_i).to_s
                         m.gsub! '[#3]', (param[5].to_i * level + param[4].to_i).to_s
