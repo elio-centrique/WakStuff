@@ -138,7 +138,7 @@ def loadItemList()
             level,
             description,
             sortedStats,
-            "https://s.ankama.com/www/static.ankama.com/wakfu/portal/game/item/115/" + item['definition']['item']['graphicParameters']['gfxId'].to_s + ".png"
+            "https://vertylo.github.io/wakassets/items/" + item['definition']['item']['graphicParameters']['gfxId'].to_s + ".png"
         )
         $listItemsFR.push tmpItem
     }
