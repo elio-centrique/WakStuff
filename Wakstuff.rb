@@ -131,6 +131,11 @@ def loadItemList()
         if item['definition']['item']['baseParameters']['itemTypeId'] == 582
             level += 50
         end
+
+        if item['definition']['item']['id'] == 26593
+            puts sortedStats[4]
+        end
+
         tmpItem = Item.new(
             title,
             rarity,
@@ -456,7 +461,6 @@ bot.command(:search, description: I18n.t(:searchCommand)) do |event, *args|
     listItem.each { |item|
         if item.name.downcase.include?(args.join(" ").downcase)
             findObject = true
-            event << item.getStatsMessage
             listFound.push(item)
         end
     }
@@ -464,7 +468,6 @@ bot.command(:search, description: I18n.t(:searchCommand)) do |event, *args|
         event << I18n.t(:noObject)
     else
         if listFound.length == 1
-            event << listFound[0].getStatsMessage
             event.send_embed do |embed|
                 embed.title = listFound[0].name + " " +I18n.t(:level) + " " + listFound[0].level.to_s
                 embed.description = listFound[0].getStatsMessage
@@ -489,7 +492,6 @@ bot.command(:search, description: I18n.t(:searchCommand)) do |event, *args|
                     guess.respond I18n.t(:chooseNumber)
                     false
                 else
-                    event << listFound[0].getStatsMessage
                     event.send_embed do |embed|
                         embed.title = listFound[guess - 1].name + " " +I18n.t(:level) + " " + listFound[guess - 1].level.to_s
                         embed.description = listFound[guess - 1].getStatsMessage
