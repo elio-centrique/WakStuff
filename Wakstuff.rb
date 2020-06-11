@@ -463,6 +463,7 @@ bot.command(:search, description: I18n.t(:searchCommand)) do |event, *args|
         event << I18n.t(:noObject)
     else
         if listFound.length == 1
+            puts "test"
             puts listFound[0].getStatsMessage
             event.send_embed do |embed|
                 embed.title = listFound[0].name + " " +I18n.t(:level) + " " + listFound[0].level.to_s
