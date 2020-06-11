@@ -133,12 +133,11 @@ def loadItemList()
         end
 
         if item['definition']['item']['id'] == 26593
-            puts sortedStats[3]
+            puts sortedStats
         end
 
         if item['definition']['item']['id'] == 2023
-            puts sortedStats[3]
-            puts sortedStats[4]
+            puts sortedStats
         end
 
         tmpItem = Item.new(
