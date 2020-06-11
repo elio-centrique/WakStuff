@@ -136,6 +136,11 @@ def loadItemList()
             puts sortedStats[3]
         end
 
+        if item['definition']['item']['id'] == 2023
+            puts sortedStats[3]
+            puts sortedStats[4]
+        end
+
         tmpItem = Item.new(
             title,
             rarity,
