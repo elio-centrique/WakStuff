@@ -456,6 +456,7 @@ bot.command(:search, description: I18n.t(:searchCommand)) do |event, *args|
     listItem.each { |item|
         if item.name.downcase.include?(args.join(" ").downcase)
             findObject = true
+            puts item.getStatsMessage
             listFound.push(item)
         end
     }
@@ -489,6 +490,8 @@ bot.command(:search, description: I18n.t(:searchCommand)) do |event, *args|
                     guess.respond I18n.t(:chooseNumber)
                     false
                 else
+                    puts "test"
+                    puts listFound[0].getStatsMessage
                     event.send_embed do |embed|
                         embed.title = listFound[guess - 1].name + " " +I18n.t(:level) + " " + listFound[guess - 1].level.to_s
                         embed.description = listFound[guess - 1].getStatsMessage
