@@ -124,6 +124,9 @@ def loadItemList()
                 end
             }
         }
+        if item['definition']['item']['id'] == 26593
+            puts sortedStats
+        end
 
         sortedStats = sortedStats.reject! {|stat| stat.nil? }
         (item['title'] != nil) ? title = item['title']["fr"] : title = "undefined"
