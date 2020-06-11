@@ -463,10 +463,10 @@ bot.command(:search, description: I18n.t(:searchCommand)) do |event, *args|
         event << I18n.t(:noObject)
     else
         if listFound.length == 1
+            puts listFound[0].getStatsMessage
             event.send_embed do |embed|
                 embed.title = listFound[0].name + " " +I18n.t(:level) + " " + listFound[0].level.to_s
                 embed.description = listFound[0].getStatsMessage
-                puts listFound[0].getStatsMessage
                 embed.color = listFound[0].color
                 embed.add_field(name: "Description: ", value: listFound[0].description)
                 embed.image = Discordrb::Webhooks::EmbedImage.new(url: listFound[0].image)
