@@ -125,19 +125,19 @@ def loadItemList()
             }
         }
 
-        sortedStats = sortedStats.reject! {|stat| stat.nil? }
-        (item['title'] != nil) ? title = item['title']["fr"] : title = "undefined"
-        level = item['definition']['item']['level'].to_i
-        if item['definition']['item']['baseParameters']['itemTypeId'] == 582
-            level += 50
-        end
-
         if item['definition']['item']['id'] == 26593
             puts "épée éternelle: " + sortedStats.to_s
         end
 
         if item['definition']['item']['id'] == 2023
             puts "boufbottes: " + sortedStats.to_s
+        end
+
+        sortedStats = sortedStats.reject! {|stat| stat.nil? }
+        (item['title'] != nil) ? title = item['title']["fr"] : title = "undefined"
+        level = item['definition']['item']['level'].to_i
+        if item['definition']['item']['baseParameters']['itemTypeId'] == 582
+            level += 50
         end
 
         tmpItem = Item.new(
