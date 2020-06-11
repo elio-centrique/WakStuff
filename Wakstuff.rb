@@ -133,7 +133,7 @@ def loadItemList()
         end
 
         if item['definition']['item']['id'] == 26593
-            puts sortedStats[4]
+            puts sortedStats[3]
         end
 
         tmpItem = Item.new(
