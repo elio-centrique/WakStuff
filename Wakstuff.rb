@@ -206,17 +206,17 @@ def loadItemList()
                         if m.include? "{[~2]? en [#2]:}"
                             case param[3].to_i * level + param[2].to_i
                             when 64
-                                m.gsub! "{[~2]? en [#2]:}", " in farmer."
+                                m.gsub! "{[~2]? in [#2]:}", " in farmer."
                             when 71
-                                m.gsub! "{[~2]? en [#2]:}", " in lumberjack."
+                                m.gsub! "{[~2]? in [#2]:}", " in lumberjack."
                             when 72
-                                m.gsub! "{[~2]? en [#2]:}", " in herbalist."
+                                m.gsub! "{[~2]? in [#2]:}", " in herbalist."
                             when 73
-                                m.gsub! "{[~2]? en [#2]:}", " in miner."
+                                m.gsub! "{[~2]? in [#2]:}", " in miner."
                             when 74
-                                m.gsub! "{[~2]? en [#2]:}", " in trapper."
+                                m.gsub! "{[~2]? in [#2]:}", " in trapper."
                             when 75
-                                m.gsub! "{[~2]? en [#2]:}", " in fisherman."
+                                m.gsub! "{[~2]? in [#2]:}", " in fishera."
                             end
                         end
                         m.gsub! '[#1]', (param[1].to_i * level + param[0].to_i).to_s
