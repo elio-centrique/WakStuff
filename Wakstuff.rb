@@ -86,6 +86,22 @@ def loadItemList()
                         m.gsub! '[~3]?[#1] Mastery [#3]:', ""
                         m.gsub! '[~3]?[#1] Résistance [#3]:', ""
                         m.gsub! '[~3]?[#1] Resistance [#3]:', ""
+                        if m.include? "{[~2]? en [#2]:}"
+                            case param[3].to_i * level + param[2].to_i
+                            when 64
+                                m.gsub! "{[~2]? en [#2]:}", " en paysan."
+                            when 71
+                                m.gsub! "{[~2]? en [#2]:}", " en forestier."
+                            when 72
+                                m.gsub! "{[~2]? en [#2]:}", " en herboriste."
+                            when 73
+                                m.gsub! "{[~2]? en [#2]:}", " en mineur."
+                            when 74
+                                m.gsub! "{[~2]? en [#2]:}", " en trappeur."
+                            when 75
+                                m.gsub! "{[~2]? en [#2]:}", " en pêcheur."
+                            end
+                        end
                         m.gsub! '[#1]', (param[1].to_i * level + param[0].to_i).to_s
                         m.gsub! '[#2]', (param[3].to_i * level + param[2].to_i).to_s
                         m.gsub! '[#3]', (param[5].to_i * level + param[4].to_i).to_s
