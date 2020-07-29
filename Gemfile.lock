@@ -24,7 +24,7 @@ GEM
       domain_name (~> 0.5)
     i18n (1.7.0)
       concurrent-ruby (~> 1.0)
-    json (2.2.0)
+    json (2.3.0)
     jwt (2.2.1)
     mime-types (3.3)
       mime-types-data (~> 3.2015)
@@ -43,7 +43,7 @@ GEM
       rack (>= 1.2, < 3)
     opus-ruby (1.0.1)
       ffi
-    rack (2.0.8)
+    rack (2.2.3)
     rbnacl (3.4.0)
       ffi
     rest-client (2.1.0)
