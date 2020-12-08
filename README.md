@@ -1,5 +1,4 @@
-# THIS PLOJECT IS NO LONGER UPDATED. PLEASE CHECK OUT THE V2 OF THE BOT HERE:
-# https://github.com/elio-centrique/WakStuff-V2
+# THIS PROJECT IS NO LONGER UPDATED. PLEASE CHECK OUT THE V2 OF THE BOT HERE: https://github.com/elio-centrique/WakStuff-V2
 
 # WakStuff
 <p>WakStuff is a Discord bot for the game Wakfu&copy; created with the JSON data provided by Ankama Games&copy; <br>
