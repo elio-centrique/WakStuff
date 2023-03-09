@@ -40,7 +40,7 @@ GEM
       rack (>= 1.2, < 3)
     opus-ruby (1.0.1)
       ffi
-    rack (2.2.6.2)
+    rack (2.2.6.3)
     rbnacl (3.4.0)
       ffi
     rest-client (2.1.0)
