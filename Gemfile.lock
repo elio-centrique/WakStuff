@@ -37,7 +37,7 @@ GEM
       rack (>= 1.2, < 3)
     opus-ruby (1.0.1)
       ffi
-    rack (2.2.13)
+    rack (2.2.19)
     rest-client (2.1.0)
       http-accept (>= 1.7.0, < 2.0)
       http-cookie (>= 1.0.2, < 2.0)
